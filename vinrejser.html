@@ -9,12 +9,28 @@
     <style>
       #holder {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(600px, 1fr));
         gap: 1em;
         border-radius: 50%;
       }
       article {
         padding: 1em;
+        background-color: #f2efe7;
+      }
+      .label {
+        box-sizing: content-box;
+        border-width: 1.5px;
+        border-style: double;
+        border-image: radial-gradient(#8f6b29, #fde08d, #df9f28);
+        border-image-slice: 1;
+      }
+      .label-inner {
+        margin: 5px;
+        border-width: 1.5px;
+        box-sizing: content-box;
+        border-style: double;
+        border-image: radial-gradient(#8f6b29, #fde08d, #df9f28);
+        border-image-slice: 1;
       }
       img {
         width: 100%;
@@ -80,6 +96,20 @@
         color: white;
         border-radius: 5px;
       }
+
+      .grid_1-1 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+      }
+
+      footer {
+        display: flex;
+      }
+      .footer-block {
+        flex-direction: row;
+        justify-content: space-evenly;
+      }
+
       @media screen and (max-width: 750px) {
         button {
           display: block;
@@ -103,11 +133,20 @@
 
     <template>
       <article>
-        <img src="" alt="" />
-        <h2 class="områder"></h2>
-        <h3 class="lande"></h3>
-        <p class="beskrivelse"></p>
-        <p class="pris"></p>
+        <div class="grid_1-1">
+          <div class="col">
+            <img src="" alt="" />
+          </div>
+          <div class="label">
+            <div class="label-inner">
+              <div class="col"></div>
+              <h2 class="områder"></h2>
+              <h3 class="lande"></h3>
+              <p class="beskrivelse"></p>
+              <p class="pris"></p>
+            </div>
+          </div>
+        </div>
       </article>
     </template>
 
@@ -119,12 +158,55 @@
         <p class="pris"></p>
       </article>
     </div>
+
+    <footer>
+      <div class="footer-block">
+        <h2>Nyhedsbrev</h2>
+        <p>
+          Tilmeld dig vores nyhedsbrev og vær blandt de første til at få nyt
+          angående vores rejser.
+        </p>
+        <form>
+          <label for="E-mail adresse"></label><br />
+          <input type="email" name="E-mail" aria-label="E-mail adresse" />
+          <input type="button" value="Tilmeld" />
+        </form>
+      </div>
+
+      <div class="footer-block">
+        <h2>Følg os</h2>
+        <!-- <img width="30px" src="" alt="" />
+      <img width="30px" src="" alt="" />
+      <img width="30px" src="" alt="" /> -->
+      </div>
+
+      <div class="footer-block">
+        <h2>Vin & rejs</h2>
+        <p>Om Vin & Rejs</p>
+        <p>F.A.Q</p>
+        <p>Cookies Policy</p>
+        <p>Terms of service</p>
+      </div>
+
+      <div class="footer-block">
+        <h2>Kontakt info</h2>
+        <!-- <img src="" alt="" /> -->
+        <p>adresse</p>
+        <!-- <img src="" alt="" /> -->
+        <p>Telefon</p>
+        <!-- <img src="" alt="" /> -->
+        <p>mail</p>
+      </div>
+    </footer>
+
     <script>
       let lande;
       let filter = "alle";
       const header = document.querySelector("header h1");
       const filterKnapper = document.querySelectorAll("nav button");
-      filterKnapper.forEach((knap) => knap.addEventListener("click", filterlande));
+      filterKnapper.forEach((knap) =>
+        knap.addEventListener("click", filterlande)
+      );
       function filterlande() {
         filter = this.dataset.lande;
         vis();
@@ -154,9 +236,12 @@
           const klon = skabelon.cloneNode(true);
           if (filter == land.lande || filter == "alle") {
             klon.querySelector(".områder").textContent = land.områder;
-            klon.querySelector("article").addEventListener("click", () => visland(land));
+            klon
+              .querySelector("article")
+              .addEventListener("click", () => visland(land));
             klon.querySelector(".pris").textContent = land.pris + ".-";
-            klon.querySelector("img").src = "billeder/" + land.billedtekst + ".jpg";
+            klon.querySelector("img").src =
+              "billeder/" + land.billedtekst + ".jpg";
 
             klon.querySelector(".lande").textContent = land.lande;
             //   klon.querySelector(".titel").textContent = land.titel;
@@ -171,7 +256,8 @@
         popup.querySelector("h2").textContent = landData.områder;
         popup.querySelector("p").textContent = landData.beskrivelse;
         popup.querySelector(".pris").textContent = landData.pris;
-        popup.querySelector("img").src = "billeder/" + landData.billedtekst + ".jpg";
+        popup.querySelector("img").src =
+          "billeder/" + landData.billedtekst + ".jpg";
         popup.style.display = "flex";
         popup.addEventListener("click", () => (popup.style.display = "none"));
       }
